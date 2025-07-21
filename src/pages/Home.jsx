@@ -120,9 +120,20 @@ function Home() {
                     {searchQuery.length > 0 ? 'Search Results' : 'Featured Stories'}
                 </h2>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(200px, auto)]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {displayPosts.map((post) => (
-                        <PostCard key={post.$id} {...post} />
+                        <div key={post.$id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                            <PostCard {...post} />
+                            <div className="p-4">
+                                <p className="text-sm text-gray-500">
+                                    Published: {new Date(post.$createdAt).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    })}
+                                </p>
+                            </div>
+                        </div>
                     ))}
                 </div>
 

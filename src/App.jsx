@@ -23,10 +23,10 @@ function App() {
   }, [])
   
   return !loading ? (
-    <div className='min-h-full flex flex-col bg-gradient-to-b from-gray-800 via-gray-900 to-black
+    <div className=' flex flex-col bg-gradient-to-b from-gray-800 via-gray-900 to-black
 '>
       <Header />
-      <main className='flex-grow pl-16 mt-4'> {/* Added padding-left to account for sidebar */}
+      <main className='flex-grow pl- mt-4'> {/* Added padding-left to account for sidebar */}
         <Outlet />
       </main>
       <Footer />

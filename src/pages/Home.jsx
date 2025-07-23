@@ -66,7 +66,7 @@ function Home() {
     }
 
     return (
-        <div className="py-12 bg-gradient-to-b from-gray-800 via-gray-900 to-black">
+        <div className="py-8 bg-gradient-to-b from-gray-800 via-gray-900 to-black">
             <Container>
                 <div className="max-w-2xl mx-auto mb-12 relative">
                     <div className="relative">
@@ -81,7 +81,7 @@ function Home() {
                     </div>
                     
                     {showSuggestions && searchQuery.length > 0 && (
-                        <div className="absolute z-10 w-full mt-2 bg-gray-800 rounded-lg shadow-lg border border-gray-700 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20">
+                        <div className="absolute z-10 w-full mt-2 bg-gray-800 rounded-lg shadow-lg border border-gray-700 transition-all duration-900 hover:shadow-xl hover:shadow-blue-500/20">
                             <div className="p-4">
                                 <h3 className="text-sm font-semibold text-gray-400 mb-2">All</h3>
                                 {searchResults.length > 0 ? (

@@ -127,9 +127,9 @@ export default function Post() {
 
                         {/* Post Meta */}
                         <div className="w-full lg:w-1/3 space-y-4">
-                            <div className="bg-gray-50 p-4 rounded-lg">
+                            <div className="bg-gray-800 p-4 rounded-lg">
                                 <p className="text-sm text-gray-500">
-                                    <span className="font-medium">Published:</span> {new Date(post.$createdAt).toLocaleDateString('en-US', {
+                                    <span className="font-medium"></span> {new Date(post.$createdAt).toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'long',
                                         day: 'numeric'

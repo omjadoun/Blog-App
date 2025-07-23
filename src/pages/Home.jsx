@@ -68,7 +68,7 @@ function Home() {
     return (
         <div className="py-8 bg-gradient-to-b from-gray-800 via-gray-900 to-black">
             <Container>
-                <div className="max-w-2xl mx-auto mb-12 relative">
+                <div className="max-w-2xl mx-auto mb-12 relative mt-8">
                     <div className="relative">
                         <input
                             type="text"

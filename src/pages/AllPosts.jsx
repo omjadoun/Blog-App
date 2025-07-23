@@ -16,7 +16,7 @@ function AllPosts() {
     return (
         <div className='w-full py-8'>
             <Container>
-                <h1 className="text-3xl font-bold mb-8 text-center text-white">All Posts</h1>
+                <h1 className="text-3xl font-bold mb-8 text-center text-white mt-8">All Posts</h1>
                 <div className='flex flex-wrap'>
                     {posts.map((post) => (
                         <div key={post.$id} className='p-4 w-full sm:w-1/2 lg:w-1/3 xl:w-1/4'>

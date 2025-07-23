@@ -36,7 +36,7 @@ function Header() {
   };
 
   return (
-    <aside className="fixed top-0 left-0 z-50 flex h-screen w-16 flex-col items-center border-r bg-white py-8 shadow-lg justify-between">
+    <aside className="fixed top-0 left-0 z-50 flex h-screen w-16 flex-col items-center border-r bg-gray-900 text-white py-8 shadow-lg justify-between">
       {/* Top logo/title */}
       <div className="text-blue-600 text-xl font-bold italic">DB</div>
 

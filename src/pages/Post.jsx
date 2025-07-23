@@ -89,10 +89,14 @@ export default function Post() {
     }
 
     return (
-        <div className="py-10 bg-gray-100 min-h-screen">
+        <div className="py-10 bg-gradient-to-b from-gray-800 via-gray-900 to-blackmin-h-screen">
             <Container>
-                <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-                    {/* Author Controls - More visible and accessible */}
+                {/* Glow Effect Added Here */}
+                <div className="bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-xl shadow-md p-6 mb-8 
+                    transition-all duration-300 ease-in-out 
+                    hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-1">
+                    
+                    {/* Author Controls */}
                     {isAuthor && (
                         <div className="flex justify-end gap-4 mb-6">
                             <Link to={`/edit-post/${post.$id}`}>

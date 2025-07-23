@@ -23,7 +23,7 @@ export default function RTE({name, control, label, defaultValue =""}) {
              max_chars: 50000,
              branding: false,
               promotion: false,
-              
+              apiKey: 'no-api-key',
             telemetry: false,
             plugins: [
                 "image",

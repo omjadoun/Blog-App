@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import appwriteService from "../appwrite/config"
 import { Container, PostCard } from '../components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FiSearch } from 'react-icons/fi'
 import Masonry from 'react-masonry-css'
+import { useSelector } from 'react-redux'
 
 function Home() {
     const [posts, setPosts] = useState([])
     const [searchQuery, setSearchQuery] = useState('')
     const [searchResults, setSearchResults] = useState([])
     const [showSuggestions, setShowSuggestions] = useState(false)
+    const authStatus = useSelector(state => state.auth.status)
+    const navigate = useNavigate()
 
     useEffect(() => {
         appwriteService.getPosts().then((posts) => {
@@ -51,6 +54,28 @@ function Home() {
                     <div className="max-w-xl mx-auto bg-gradient-to-b from-gray-800 via-gray-900 to-black p-8 rounded-xl shadow-md text-center">
                         <h1 className="text-3xl font-bold mb-4 text-white">Welcome to DevBlog</h1>
                         <p className="text-gray-400 mb-6">There are no posts yet. Be the first to create one!</p>
+                        <div className="flex justify-center space-x-4">
+                            <Link to="/login" className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30">
+                                Login
+                            </Link>
+                            <Link to="/signup" className="px-6 py-2 border border-blue-600 text-blue-400 rounded-lg hover:bg-blue-900/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20">
+                                Sign Up
+                            </Link>
+                        </div>
+                    </div>
+                </Container>
+            </div>
+        )
+    }
+
+    // If user is not logged in, show login prompt
+    if (!authStatus) {
+        return (
+            <div className="min-h-[60vh] flex items-center justify-center bg-gradient-to-b from-gray-800 via-gray-900 to-black">
+                <Container>
+                    <div className="max-w-xl mx-auto bg-gradient-to-b from-gray-800 via-gray-900 to-black p-8 rounded-xl shadow-md text-center">
+                        <h1 className="text-3xl font-bold mb-4 text-white">Welcome to DevBlog</h1>
+                        <p className="text-gray-400 mb-6">Please login to view our featured stories</p>
                         <div className="flex justify-center space-x-4">
                             <Link to="/login" className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30">
                                 Login

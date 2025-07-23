@@ -3,6 +3,7 @@ import appwriteService from "../appwrite/config"
 import { Container, PostCard } from '../components'
 import { Link } from 'react-router-dom'
 import { FiSearch } from 'react-icons/fi'
+import Masonry from 'react-masonry-css'
 
 function Home() {
     const [posts, setPosts] = useState([])
@@ -36,6 +37,12 @@ function Home() {
     }
 
     const displayPosts = searchQuery.length > 0 ? searchResults : posts
+
+    const breakpointColumnsObj = {
+        default: 3,
+        1100: 2,
+        700: 1
+    }
 
     if (posts.length === 0) {
         return (
@@ -123,17 +130,36 @@ function Home() {
                     {searchQuery.length > 0 ? 'Search Results' : 'Featured Stories'}
                 </h2>
                 
-                {/* Changed from grid-cols-1 md:grid-cols-2 lg:grid-cols-3 to grid-cols-1 md:grid-cols-2 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Masonry Grid Layout */}
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className="flex -ml-8 w-auto"
+                    columnClassName="pl-8"
+                >
                     {displayPosts.map((post) => (
                         <div 
                             key={post.$id} 
-                            className="bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 hover:-translate-y-1 border border-gray-700 hover:border-blue-500/30"
+                            className="mb-8 bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 hover:-translate-y-1 border border-gray-700 hover:border-blue-500/30"
                         >
-                            <PostCard {...post} />
-                            <div className="p-4">
+                            <Link to={`/post/${post.$id}`} className="block">
+                                <div className="w-full overflow-hidden">
+                                    <img 
+                                        src={appwriteService.getFilePreview(post.featuredImage)} 
+                                        alt={post.title}
+                                        className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+                                        loading="lazy"
+                                    />
+                                </div>
+                                <div className="p-6">
+                                    <h3 className="text-xl font-bold mb-2 text-white line-clamp-2">{post.title}</h3>
+                                    <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+                                        {post.content.replace(/<[^>]*>/g, '')}
+                                    </p>
+                                </div>
+                            </Link>
+                            <div className="p-4 border-t border-gray-700">
                                 <p className="text-sm text-gray-400">
-                                    Published: {new Date(post.$createdAt).toLocaleDateString('en-US', {
+                                     {new Date(post.$createdAt).toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'long',
                                         day: 'numeric'
@@ -142,7 +168,7 @@ function Home() {
                             </div>
                         </div>
                     ))}
-                </div>
+                </Masonry>
 
                 {displayPosts.length === 0 && searchQuery.length > 0 && (
                     <div className="text-center py-12">

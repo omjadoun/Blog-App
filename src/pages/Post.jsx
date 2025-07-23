@@ -141,11 +141,11 @@ export default function Post() {
 
                     {/* Post Title */}
                     <div className="mt-6">
-                        <h1 className="text-3xl font-bold text-gray-800 mb-2">{post.title}</h1>
+                        <h1 className="text-3xl font-bold text-white mb-2">{post.title}</h1>
                     </div>
 
                     {/* Post Content */}
-                    <div className="prose prose-lg max-w-none text-gray-700 mt-4">
+                    <div className="prose prose-lg max-w-none text-white mt-4">
                         {parse(post.content)}
                     </div>
                 </div>

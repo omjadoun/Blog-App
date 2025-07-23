@@ -12,22 +12,22 @@ function Header() {
   const navigate = useNavigate();
 
   const navItems = [
-    { name: 'Home', slug: '/', active: true, icon: <AiFillHome size={24} /> },
-    { name: 'Login', slug: '/login', active: !authStatus, icon: <AiOutlineLogin size={24} /> },
-    { name: 'Signup', slug: '/signup', active: !authStatus, icon: <MdAppRegistration size={24} /> },
+    { name: 'Home', slug: '/', active: true, icon: <AiFillHome size={20} /> },
+    { name: 'Login', slug: '/login', active: !authStatus, icon: <AiOutlineLogin size={20} /> },
+    { name: 'Signup', slug: '/signup', active: !authStatus, icon: <MdAppRegistration size={20} /> },
     {
       name: 'All Posts',
       slug: '/all-posts',
       active: authStatus,
       match: ['/all-posts', '/post'],
-      icon: <FaRegNewspaper size={22} />,
+      icon: <FaRegNewspaper size={18} />,
     },
     {
       name: 'Add Post',
       slug: '/add-post',
       active: authStatus,
       match: ['/add-post', '/edit-post'],
-      icon: <AiOutlinePlusSquare size={24} />,
+      icon: <AiOutlinePlusSquare size={20} />,
     },
   ];
 
@@ -36,42 +36,44 @@ function Header() {
   };
 
   return (
-    <aside className="fixed top-0 left-0 z-50 flex h-screen w-16 flex-col items-center border-r bg-gray-900 text-white py-8 shadow-lg justify-between">
-      {/* Top logo/title */}
-      <div className="text-blue-600 text-xl font-bold italic">DB</div>
+    <header className="fixed top-0 left-0 z-50 w-full bg-gray-900 text-white shadow-lg">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+        {/* Logo */}
+        <div className="text-blue-600 text-xl font-bold italic">DB</div>
 
-      {/* Middle nav icons */}
-      <ul className="flex flex-col items-center gap-8">
-        {navItems.map(
-          (item) =>
-            item.active && (
-              <li key={item.name} className="group relative">
-                <button
-                  onClick={() => handleNavigation(item.slug)}
-                  className={`p-2 rounded-lg transition-colors ${
-                    item.match?.some((m) => location.pathname.startsWith(m)) ||
-                    location.pathname === item.slug
-                      ? 'bg-blue-100 text-blue-600'
-                      : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
-                  }`}
-                >
-                  {item.icon}
-                </button>
-                <span className="absolute left-14 top-1/2 -translate-y-1/2 scale-0 group-hover:scale-100 transition-all bg-gray-800 text-white text-xs px-3 py-1 rounded whitespace-nowrap shadow-lg">
-                  {item.name}
-                </span>
-              </li>
-            )
-        )}
-      </ul>
+        {/* Navigation */}
+        <nav className="flex items-center gap-4">
+          <ul className="flex items-center gap-4">
+            {navItems.map(
+              (item) =>
+                item.active && (
+                  <li key={item.name} className="group relative">
+                    <button
+                      onClick={() => handleNavigation(item.slug)}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                        item.match?.some((m) => location.pathname.startsWith(m)) ||
+                        location.pathname === item.slug
+                          ? 'bg-blue-600 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                      }`}
+                    >
+                      {item.icon}
+                      <span className="text-sm">{item.name}</span>
+                    </button>
+                  </li>
+                )
+            )}
+          </ul>
 
-      {/* Bottom logout */}
-      {authStatus && (
-        <div className="mb-4">
-          <LogoutBtn />
-        </div>
-      )}
-    </aside>
+          {/* Logout */}
+          {authStatus && (
+            <div className="ml-4">
+              <LogoutBtn />
+            </div>
+          )}
+        </nav>
+      </div>
+    </header>
   );
 }
 

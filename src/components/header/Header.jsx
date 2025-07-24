@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AiFillHome, AiOutlineLogin, AiOutlinePlusSquare } from 'react-icons/ai';
+import { 
+  AiFillHome, 
+  AiOutlineLogin, 
+  AiOutlinePlusSquare, 
+  AiOutlineMenu,
+  AiOutlineClose
+} from 'react-icons/ai';
 import { MdAppRegistration } from 'react-icons/md';
 import { FaRegNewspaper } from 'react-icons/fa';
 import { LogoutBtn } from '../index';
@@ -10,6 +16,7 @@ function Header() {
   const authStatus = useSelector((state) => state.auth.status);
   const location = useLocation();
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
     { name: 'Home', slug: '/', active: true, icon: <AiFillHome size={20} /> },
@@ -33,6 +40,7 @@ function Header() {
 
   const handleNavigation = (slug) => {
     navigate(slug);
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -41,8 +49,8 @@ function Header() {
         {/* Logo */}
         <div className="text-blue-600 text-xl font-bold italic">DB</div>
 
-        {/* Navigation */}
-        <nav className="flex items-center gap-4">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-4">
           <ul className="flex items-center gap-4">
             {navItems.map(
               (item) =>
@@ -65,13 +73,56 @@ function Header() {
             )}
           </ul>
 
-          {/* Logout */}
+          {/* Logout - Desktop */}
           {authStatus && (
             <div className="ml-4">
               <LogoutBtn />
             </div>
           )}
         </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-white focus:outline-none"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
+        </button>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-16 left-0 right-0 bg-gray-900 py-4 px-4 shadow-lg">
+            <ul className="flex flex-col gap-2">
+              {navItems.map(
+                (item) =>
+                  item.active && (
+                    <li key={item.name}>
+                      <button
+                        onClick={() => handleNavigation(item.slug)}
+                        className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-colors ${
+                          item.match?.some((m) => location.pathname.startsWith(m)) ||
+                          location.pathname === item.slug
+                            ? 'bg-blue-600 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                        }`}
+                      >
+                        {item.icon}
+                        <span>{item.name}</span>
+                      </button>
+                    </li>
+                  )
+              )}
+              {/* Logout - Mobile */}
+              {authStatus && (
+                <li>
+                  <div className="px-4 py-3">
+                    <LogoutBtn className="w-full" />
+                  </div>
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
     </header>
   );

@@ -3,7 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Button, Container } from "../components";
 import parse from "html-react-parser";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { verifySession } from "../store/authSlice"; // Import the verifySession action
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -11,9 +12,25 @@ export default function Post() {
     const [error, setError] = useState(null);
     const { slug } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const userData = useSelector((state) => state.auth.userData);
-    const isAuthor = !loading && post && userData ? post.userId === userData.$id : false;
+    // Get auth state including loading status
+    const { userData, status, loading: authLoading } = useSelector((state) => state.auth);
+    const [isAuthor, setIsAuthor] = useState(false);
+
+    // Verify session on component mount
+    useEffect(() => {
+        dispatch(verifySession());
+    }, [dispatch]);
+
+    // Update isAuthor whenever post or auth state changes
+    useEffect(() => {
+        if (!authLoading && post && userData) {
+            setIsAuthor(post.userId === userData.$id);
+        } else {
+            setIsAuthor(false);
+        }
+    }, [post, userData, authLoading]);
 
     useEffect(() => {
         if (slug) {
@@ -56,7 +73,7 @@ export default function Post() {
         }
     };
 
-    if (loading) {
+    if (loading || authLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-100">
                 <Container>
@@ -89,15 +106,14 @@ export default function Post() {
     }
 
     return (
-        <div className="py-10 bg-gradient-to-b from-gray-800 via-gray-900 to-blackmin-h-screen">
+        <div className="py-10 bg-gradient-to-b from-gray-800 via-gray-900 to-black min-h-screen">
             <Container>
-                {/* Glow Effect Added Here */}
                 <div className="bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-xl shadow-md p-6 mb-8 
                     transition-all duration-300 ease-in-out 
                     hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-1">
                     
-                    {/* Author Controls */}
-                    {isAuthor && (
+                    {/* Author Controls - Only show when authenticated AND is author */}
+                    {status && isAuthor && (
                         <div className="flex justify-end gap-4 mb-6">
                             <Link to={`/edit-post/${post.$id}`}>
                                 <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
